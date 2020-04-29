@@ -1,9 +1,58 @@
-
 /**
  * A method that determines if a constructor object recognizes an object as one of the
  * constructor’s instances. Called by the semantics of the instanceof operator.
  */
-export const SymbolHasInstance: typeof Symbol.hasInstance = typeof Symbol !== 'undefined' && Symbol.hasInstance || void 0;
+export const SymbolHasInstance: typeof Symbol.hasInstance = getSymbolHasInstance(true);
+
+const hasInstanceSource = Object[SymbolHasInstance] as (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>);
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function isDefined<T>(target: T): target is Exclude<T, null | void | never>
+{
+	return target !== null && target !== void 0
+}
+
+export function supportSymbolHasInstance(nonStrict?: boolean)
+{
+	return typeof Symbol !== 'undefined' && (nonStrict
+		? isDefined(Symbol.hasInstance)
+		: typeof Symbol.hasInstance === 'symbol')
+}
+
+export function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>)
+{
+	return hasInstanceSource
+}
+
+export function isOriginalHasInstance(fn): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>)
+{
+	return fn === hasInstanceSource
+}
+
+export function getSymbolHasInstance(nonStrict?: boolean): typeof Symbol.hasInstance
+{
+	if (supportSymbolHasInstance(nonStrict))
+	{
+		return Symbol.hasInstance
+	}
+}
+
+export function hasInstanceRaw<C extends new (...args: any) => any>(staticClass: C, nonStrict: boolean = true): (instance: any) => instance is InstanceType<C>
+{
+	if (supportSymbolHasInstance(nonStrict))
+	{
+		// @ts-ignore
+		return staticClass?.[Symbol.hasInstance];
+	}
+}
+
+export function hasInstanceRawSafe<C extends new (...args: any) => any>(staticClass: C, nonStrict: boolean = true): (instance: any) => instance is InstanceType<C>
+{
+	if (hasOwnProperty.call(staticClass, SymbolHasInstance))
+	{
+		return hasInstanceRaw(staticClass, nonStrict);
+	}
+}
 
 /**
  * A method that determines if a constructor object recognizes an object as one of the
@@ -11,20 +60,23 @@ export const SymbolHasInstance: typeof Symbol.hasInstance = typeof Symbol !== 'u
  */
 export function hasInstance<C extends new (...args: any) => any>(staticClass: C): (instance: any) => instance is InstanceType<C>
 {
-	let fn;
-	if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined')
-	{
-		fn = staticClass?.[Symbol.hasInstance]?.bind?.(staticClass);
-	}
-
-	return fn ?? ((instance) => instance instanceof staticClass);
+	// @ts-ignore
+	return hasInstanceRaw(staticClass)?.bind?.(staticClass) ?? ((instance) => instance instanceof staticClass);
 }
 
-export function updateHasInstance<C extends new (...args: any) => any>(staticClass: C, hasInstanceFn: (instance: any) => boolean)
+export function hasInstanceSafe<C extends new (...args: any) => any>(staticClass: C): (instance: any) => instance is InstanceType<C>
 {
-	if (!Symbol.hasInstance)
+	return hasInstanceRawSafe(staticClass) ?? hasInstanceSource;
+}
+
+export function updateHasInstance<C extends new (...args: any) => any>(staticClass: C,
+	hasInstanceFn: (instance: any) => boolean,
+	nonStrict?: boolean,
+)
+{
+	if (!supportSymbolHasInstance(nonStrict))
 	{
-		throw new ReferenceError(`not support Symbol.hasInstance, ${typeof Symbol.hasInstance}`)
+		throw new ReferenceError(`not support Symbol.hasInstance`)
 	}
 
 	Object.defineProperty(staticClass, Symbol.hasInstance, {
@@ -41,9 +93,11 @@ export function updateHasInstance<C extends new (...args: any) => any>(staticCla
  * A method that determines if a constructor object recognizes an object as one of the
  * constructor’s instances. Called by the semantics of the instanceof operator.
  */
-export function isInstanceOf<C extends new (...args: any) => any>(instance: any, staticClass: C): instance is InstanceType<C>
+export function isInstanceOf<C extends new (...args: any) => any>(instance: any,
+	staticClass: C,
+): instance is InstanceType<C>
 {
-	return hasInstance(staticClass)(instance)
+	return instance instanceof staticClass
 }
 
 export default hasInstance
