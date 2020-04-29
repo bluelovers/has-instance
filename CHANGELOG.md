@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/bluelovers/has-instance/compare/has-instance@1.0.4...has-instance@1.0.5) (2020-04-29)
+
+
+### Bug Fixes
+
+* update type ([ebee81c](https://github.com/bluelovers/has-instance/commit/ebee81c8b731b897874a841ae736ce051b0e7cee))
+
+
+
+
+
 ## [1.0.4](https://github.com/bluelovers/has-instance/compare/has-instance@1.0.3...has-instance@1.0.4) (2020-04-29)
 
 
