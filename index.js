@@ -13,15 +13,15 @@ exports.SymbolHasInstance = typeof Symbol !== 'undefined' && Symbol.hasInstance 
 function hasInstance(staticClass) {
     var _a, _b;
     let fn;
-    if (typeof Symbol.hasInstance !== 'undefined') {
+    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         fn = (_b = (_a = staticClass === null || staticClass === void 0 ? void 0 : staticClass[Symbol.hasInstance]) === null || _a === void 0 ? void 0 : _a.bind) === null || _b === void 0 ? void 0 : _b.call(_a, staticClass);
     }
     return fn !== null && fn !== void 0 ? fn : ((instance) => instance instanceof staticClass);
 }
 exports.hasInstance = hasInstance;
 function updateHasInstance(staticClass, hasInstanceFn) {
-    if (typeof Symbol.hasInstance !== 'symbol') {
-        throw new ReferenceError(`Symbol.hasInstance is undefined`);
+    if (!Symbol.hasInstance) {
+        throw new ReferenceError(`not support Symbol.hasInstance, ${typeof Symbol.hasInstance}`);
     }
     Object.defineProperty(staticClass, Symbol.hasInstance, {
         value: hasInstanceFn,

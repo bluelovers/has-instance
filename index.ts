@@ -12,7 +12,7 @@ export const SymbolHasInstance: typeof Symbol.hasInstance = typeof Symbol !== 'u
 export function hasInstance<C extends new (...args: any) => any>(staticClass: C): (instance: any) => instance is InstanceType<C>
 {
 	let fn;
-	if (typeof Symbol.hasInstance !== 'undefined')
+	if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined')
 	{
 		fn = staticClass?.[Symbol.hasInstance]?.bind?.(staticClass);
 	}
@@ -22,9 +22,9 @@ export function hasInstance<C extends new (...args: any) => any>(staticClass: C)
 
 export function updateHasInstance<C extends new (...args: any) => any>(staticClass: C, hasInstanceFn: (instance: any) => boolean)
 {
-	if (typeof Symbol.hasInstance !== 'symbol')
+	if (!Symbol.hasInstance)
 	{
-		throw new ReferenceError(`Symbol.hasInstance is undefined`)
+		throw new ReferenceError(`not support Symbol.hasInstance, ${typeof Symbol.hasInstance}`)
 	}
 
 	Object.defineProperty(staticClass, Symbol.hasInstance, {
