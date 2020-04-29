@@ -4,8 +4,8 @@
  */
 export declare const SymbolHasInstance: typeof Symbol.hasInstance;
 export declare function supportSymbolHasInstance(nonStrict?: boolean): boolean;
-export declare function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>);
-export declare function isOriginalHasInstance(fn: any): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>);
+export declare function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean);
+export declare function isOriginalHasInstance(fn: any): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean);
 export declare function getSymbolHasInstance(nonStrict?: boolean): typeof Symbol.hasInstance;
 export declare function hasInstanceRaw<C extends new (...args: any) => any>(staticClass: C, nonStrict?: boolean): (instance: any) => instance is InstanceType<C>;
 export declare function hasInstanceRawSafe<C extends new (...args: any) => any>(staticClass: C, nonStrict?: boolean): (instance: any) => instance is InstanceType<C>;

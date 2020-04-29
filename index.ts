@@ -19,12 +19,12 @@ export function supportSymbolHasInstance(nonStrict?: boolean)
 		: typeof Symbol.hasInstance === 'symbol')
 }
 
-export function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>)
+export function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
 {
 	return hasInstanceSource
 }
 
-export function isOriginalHasInstance(fn): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>)
+export function isOriginalHasInstance(fn): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
 {
 	return fn === hasInstanceSource
 }
