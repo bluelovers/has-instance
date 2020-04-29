@@ -1,6 +1,6 @@
 {
   "name": "has-instance",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "determine if a constructor object recognizes an object as its instance",
   "homepage": "https://github.com/bluelovers/has-instance#readme",
   "bugs": {
