@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isInstanceOf = exports.updateHasInstance = exports.hasInstanceSafe = exports.hasInstance = exports.hasInstanceRawSafe = exports.hasInstanceRaw = exports.getSymbolHasInstance = exports.isOriginalHasInstance = exports.getOriginalHasInstance = exports.supportSymbolHasInstance = exports.SymbolHasInstance = void 0;
+exports.isInstanceOfSafe = exports.isInstanceOf = exports.updateHasInstance = exports.hasInstanceSafe = exports.hasInstance = exports.hasInstanceRawSafe = exports.hasInstanceRaw = exports.getSymbolHasInstance = exports.isOriginalHasInstance = exports.getOriginalHasInstance = exports.supportSymbolHasInstance = exports.SymbolHasInstance = void 0;
 /**
  * A method that determines if a constructor object recognizes an object as one of the
  * constructor’s instances. Called by the semantics of the instanceof operator.
@@ -80,5 +80,9 @@ function isInstanceOf(instance, staticClass) {
     return instance instanceof staticClass;
 }
 exports.isInstanceOf = isInstanceOf;
+function isInstanceOfSafe(instance, staticClass) {
+    return hasInstanceSource.call(staticClass, instance);
+}
+exports.isInstanceOfSafe = isInstanceOfSafe;
 exports.default = hasInstance;
 //# sourceMappingURL=index.js.map

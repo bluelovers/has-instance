@@ -4,7 +4,9 @@
  */
 export const SymbolHasInstance: typeof Symbol.hasInstance = getSymbolHasInstance(true);
 
-const hasInstanceSource = Object[SymbolHasInstance] as (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>);
+const hasInstanceSource = Object[SymbolHasInstance] as (<C extends new (...args: any) => any>(this: C,
+	instance: any,
+) => instance is InstanceType<C>);
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function isDefined<T>(target: T): target is Exclude<T, null | void | never>
@@ -19,12 +21,16 @@ export function supportSymbolHasInstance(nonStrict?: boolean)
 		: typeof Symbol.hasInstance === 'symbol')
 }
 
-export function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
+export function getOriginalHasInstance(): (<C extends new (...args: any) => any>(this: C,
+	instance: any,
+) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
 {
 	return hasInstanceSource
 }
 
-export function isOriginalHasInstance(fn): fn is (<C extends new (...args: any) => any>(this: C, instance: any) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
+export function isOriginalHasInstance(fn): fn is (<C extends new (...args: any) => any>(this: C,
+	instance: any,
+) => instance is InstanceType<C>) | ((this: any, instance: any) => boolean)
 {
 	return fn === hasInstanceSource
 }
@@ -37,7 +43,9 @@ export function getSymbolHasInstance(nonStrict?: boolean): typeof Symbol.hasInst
 	}
 }
 
-export function hasInstanceRaw<C extends new (...args: any) => any>(staticClass: C, nonStrict: boolean = true): (instance: any) => instance is InstanceType<C>
+export function hasInstanceRaw<C extends new (...args: any) => any>(staticClass: C,
+	nonStrict: boolean = true,
+): (instance: any) => instance is InstanceType<C>
 {
 	if (supportSymbolHasInstance(nonStrict))
 	{
@@ -46,7 +54,9 @@ export function hasInstanceRaw<C extends new (...args: any) => any>(staticClass:
 	}
 }
 
-export function hasInstanceRawSafe<C extends new (...args: any) => any>(staticClass: C, nonStrict: boolean = true): (instance: any) => instance is InstanceType<C>
+export function hasInstanceRawSafe<C extends new (...args: any) => any>(staticClass: C,
+	nonStrict: boolean = true,
+): (instance: any) => instance is InstanceType<C>
 {
 	if (hasOwnProperty.call(staticClass, SymbolHasInstance))
 	{
@@ -98,6 +108,13 @@ export function isInstanceOf<C extends new (...args: any) => any>(instance: any,
 ): instance is InstanceType<C>
 {
 	return instance instanceof staticClass
+}
+
+export function isInstanceOfSafe<C extends new (...args: any) => any>(instance: any,
+	staticClass: C,
+): instance is InstanceType<C>
+{
+	return hasInstanceSource.call(staticClass, instance)
 }
 
 export default hasInstance

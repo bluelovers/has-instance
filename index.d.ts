@@ -21,4 +21,5 @@ export declare function updateHasInstance<C extends new (...args: any) => any>(s
  * constructor’s instances. Called by the semantics of the instanceof operator.
  */
 export declare function isInstanceOf<C extends new (...args: any) => any>(instance: any, staticClass: C): instance is InstanceType<C>;
+export declare function isInstanceOfSafe<C extends new (...args: any) => any>(instance: any, staticClass: C): instance is InstanceType<C>;
 export default hasInstance;
