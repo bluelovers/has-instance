@@ -1,14 +1,28 @@
 {
   "name": "has-instance",
   "version": "1.0.0",
-  "description": "",
+  "description": "determine if a constructor object recognizes an object as its instance",
+  "homepage": "https://github.com/bluelovers/has-instance#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/has-instance/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/has-instance.git"
+  },
   "license": "ISC",
   "author": "bluelovers",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "workspaces": [
+    "."
+  ],
   "scripts": {
     "coverage": "npx nyc yarn run test",
     "lint": "npx eslint **/*.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "test:jest": "jest --coverage",
     "test:mocha": "npx mocha --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
     "npm:publish": "npm publish",
@@ -21,6 +35,7 @@
     "tsc:default": "tsc -p tsconfig.json",
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
+  "dependencies": {},
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",
     "@types/jest": "^25.2.1",

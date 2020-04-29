@@ -1,8 +1,5 @@
-/**
- * Created by user on 2020/4/30.
- */
 
-export function hasInstance<C extends new (...args: any) => any>(staticClass: C): (instance) => instance is InstanceType<C>
+export function hasInstance<C extends new (...args: any) => any>(staticClass: C): (instance: any) => instance is InstanceType<C>
 {
 	let fn;
 	if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined')
@@ -13,7 +10,7 @@ export function hasInstance<C extends new (...args: any) => any>(staticClass: C)
 	return fn ?? ((instance) => instance instanceof staticClass);
 }
 
-export function isInstanceOf<C extends new (...args: any) => any>(instance, staticClass: C): instance is InstanceType<C>
+export function isInstanceOf<C extends new (...args: any) => any>(instance: any, staticClass: C): instance is InstanceType<C>
 {
 	return hasInstance(staticClass)(instance)
 }

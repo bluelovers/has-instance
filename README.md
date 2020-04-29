@@ -1,6 +1,6 @@
 # README.md
 
-
+    determine if a constructor object recognizes an object as its instance
 
 ## install
 
