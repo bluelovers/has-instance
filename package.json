@@ -1,6 +1,6 @@
 {
   "name": "has-instance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "determine if a constructor object recognizes an object as its instance",
   "homepage": "https://github.com/bluelovers/has-instance#readme",
   "bugs": {
@@ -35,7 +35,6 @@
     "tsc:default": "tsc -p tsconfig.json",
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
-  "dependencies": {},
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",
     "@types/jest": "^25.2.1",
